@@ -39,13 +39,13 @@ class Poll(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def poll(self, ctx, time: int, vote: int, title, *options):
         if len(options) > 10:
-            await ctx.send(':no_entry: You can only have **10 options** at maximum!')
+            await ctx.send(':no_entry: Maximal 10 optionen')
 
         elif time <= 15:
-            await ctx.send(':no_entry: Please provide poll end time grater then **15 minute**!')
+            await ctx.send(':no_entry: Bitte Umfrage mit mindestens  **15 minute**!')
 
         elif 1000000 < vote:
-            await ctx.send(':no_entry: Please provide poll maximum number of vote less then **million**!')
+            await ctx.send(':no_entry: Pol lsollte unter 1 Milllionen sein')
 
         else:
             with open('.\\databases\\scheduler.json', 'r') as scheduler_file:
@@ -57,7 +57,7 @@ class Poll(commands.Cog):
                               False)]
 
                     embed = discord.Embed(title=title,
-                                          description=f':stopwatch: Poll will end in **{time} minute**!',
+                                          description=f':stopwatch: Umfrage endet in **{time} minute**!',
                                           colour=0xFF0000)
 
                     embed.set_thumbnail(
@@ -91,7 +91,7 @@ class Poll(commands.Cog):
                         json.dump(scheduler_data, new_scheduler_data, indent=4)
 
                 else:
-                    await ctx.send(f':no_entry: **Channel is currently occupied with poll!**')
+                    await ctx.send(f':no_entry: **In dem Channel ist gerade eine Umfrage!**')
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
@@ -246,7 +246,7 @@ class Poll(commands.Cog):
 
                     update_embed = discord.Embed(title=message.embeds[0].title,
                                                  description=f':stopwatch: '
-                                                             f'Poll will end in **{time_counter} minute**!',
+                                                             f'Umfrage endet in **{time_counter} minuten**!',
                                                  colour=0xFF0000)
 
                     update_embed.set_thumbnail(url=message.embeds[0].thumbnail.url)
@@ -717,7 +717,7 @@ class Poll(commands.Cog):
                 if int(calc_minutes) > item[1]['scheduler_time'] or poll_outcome[1] >= item[1]['max_vote']:
                     if str(message.id) in poll_data:
                         await channel.send(
-                            f':tada: **{poll_outcome[0]}** has won **{message.embeds[0].title}** poll '
+                            f':tada: **{poll_outcome[0]}** hat Gewonnen **{message.embeds[0].title}** poll '
                             f'with **{poll_outcome[1]}** votes!')
 
                         # Remove poll
